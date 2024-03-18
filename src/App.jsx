@@ -10,10 +10,14 @@ export default function App() {
     useEffect(() => {
         const handleKeyDown = (event) => {
             const isValidCharacter = /^[a-zA-Z]$/i.test(event.key);
+            const isNumber = /^[0-9]$/.test(event.key);
 
             if (isValidCharacter) {
                 const char = event.key.toUpperCase();
                 setChars(prevChars => [...prevChars, char]);
+            }
+            if(isNumber){
+                setChars(prevChars => [...prevChars, event.key]);
             }
         };
         window.addEventListener('keydown', handleKeyDown);
@@ -34,7 +38,8 @@ export default function App() {
                 position: [-20, 40, 30]
             }}>
             <color attach='background' args={['#4899c9']} />
-            <Physics gravity={[0, -60, 0]} >
+            
+            <Physics  >
                 {chars.map((char, index) => <Letter key={index} char={char} rotation={[4, 5, 6]} />)}
 
                 <CuboidCollider position={[0, -6, 0]} type="fixed" args={[100, 1, 100]} />
@@ -46,7 +51,6 @@ export default function App() {
 
 
             <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dancing_hall_1k.hdr" resolution={1024}>
-                {/** On top of the HDRI we add some rectangular and circular shapes for nicer reflections */}
                 <group rotation={[-Math.PI / 3, 0, 0]}>
                     <Lightformer intensity={4} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={[10, 10, 1]} />
                     {[2, 0, 2, 0, 2, 0, 2, 0].map((x, i) => (
@@ -60,8 +64,7 @@ export default function App() {
             <ContactShadows smooth={false} scale={100} position={[0, -5.05, 0]} blur={0.5} opacity={0.75} />
             <Preload all />
 
-            {/* <CameraControls makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} /> */}
-            <OrbitControls makeDefault />
+            <CameraControls makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
         </Canvas>
     </>
 }
