@@ -12,6 +12,9 @@
     "vite": "^4.5.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.14",
     "@react-three/drei": "^9.75.0",
     "@react-three/fiber": "^8.15.14",
     "@react-three/postprocessing": "^2.16.2",

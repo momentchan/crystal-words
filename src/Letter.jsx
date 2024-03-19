@@ -1,6 +1,6 @@
-import { Center, DragControls, MeshTransmissionMaterial, Preload, RenderTexture, Text3D, useTexture } from "@react-three/drei";
-import { events, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { CuboidCollider, RigidBody, vec3 } from "@react-three/rapier";
+import { Center, MeshTransmissionMaterial, Text3D } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import { RigidBody } from "@react-three/rapier";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MathUtils } from "three";
 import * as THREE from 'three';
@@ -48,6 +48,7 @@ export default function Letter({ char, control }) {
             colliders='cuboid'
             type={dragging ? "kinematicPosition" : "dynamic"}
             ref={body}
+            gravityScale={5}
             onPointerDown={e => {
                 control.current.enabled = false
                 plane.current.setFromNormalAndCoplanarPoint(e.ray.direction, e.point);

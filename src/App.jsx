@@ -3,13 +3,17 @@ import { Canvas } from '@react-three/fiber'
 import { CuboidCollider, Physics } from "@react-three/rapier";
 import Letter from "./Letter";
 import { useEffect, useMemo, useRef, useState } from "react";
+import InputControl from "./InputControl";
 
 export default function App() {
     const [chars, setChars] = useState([])
+    const [focus, setFocus] = useState(false)
     const control = useRef()
 
     useEffect(() => {
         const handleKeyDown = (event) => {
+            if (focus) return
+
             const isValidCharacter = /^[a-zA-Z]$/i.test(event.key);
             const isNumber = /^[0-9]$/.test(event.key);
 
@@ -26,8 +30,15 @@ export default function App() {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, []); // 
+    }, [focus]); // 
 
+
+    const handleSubmit = (inputValue) => {
+        const upperCaseValue = inputValue.toUpperCase();
+        const cleanedValue = upperCaseValue.replace(/[^a-zA-Z0-9]/g, '');
+        console.log('Input value received in App:', inputValue);
+        setChars(prevChars => [...prevChars, cleanedValue]);
+    };
 
     return <>
         <Canvas
@@ -35,18 +46,20 @@ export default function App() {
             camera={{
                 fov: 45,
                 near: 1,
-                far: 300,
+                far: 1000,
                 position: [-20, 40, 30]
             }}>
             <color attach='background' args={['#4899c9']} />
 
-            <Physics debug>
-                {chars.map((char, index) => <Letter key={index} char={char} control = {control} rotation={[4, 5, 6]} />)}
+            <Physics
+            // debug
+            >
+                {chars.map((char, index) => <Letter key={index} char={char} control={control} rotation={[4, 5, 6]} />)}
                 <CuboidCollider position={[0, -1, 0]} type="fixed" args={[100, 1, 100]} />
-                <CuboidCollider position={[0, 0, -30]} type="fixed" args={[30, 100, 1]} />
-                <CuboidCollider position={[0, 0, 30]} type="fixed" args={[30, 100, 1]} />
-                <CuboidCollider position={[-30, 0, 0]} type="fixed" args={[1, 100, 30]} />
-                <CuboidCollider position={[30, 0, 0]} type="fixed" args={[1, 100, 30]} />
+                <CuboidCollider position={[0, 0, -100]} type="fixed" args={[30, 100, 1]} />
+                <CuboidCollider position={[0, 0, 100]} type="fixed" args={[30, 100, 1]} />
+                <CuboidCollider position={[-100, 0, 0]} type="fixed" args={[1, 100, 30]} />
+                <CuboidCollider position={[100, 0, 0]} type="fixed" args={[1, 100, 30]} />
             </Physics>
 
 
@@ -61,10 +74,11 @@ export default function App() {
                 </group>
             </Environment>
 
-            <ContactShadows smooth={false} scale={100} position={[0, -0.2, 0]} blur={0.5} opacity={0.75} />
+            <ContactShadows smooth={false} scale={100} position={[0, -0.05, 0]} blur={0.5} opacity={0.75} />
             <Preload all />
 
             <CameraControls ref={control} makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
         </Canvas>
+        <InputControl onSubmit={handleSubmit} setFocus={(focus) => setFocus(focus)} />
     </>
 }
