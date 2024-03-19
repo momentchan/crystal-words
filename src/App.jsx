@@ -62,7 +62,7 @@ export default function App() {
                 far: 1000,
                 position: [-20, 40, 30]
             }}>
-            <color attach='background' args={['#7d8c96']} />
+            <color attach='background' args={['#8dafc2']} />
 
             <Physics
             // debug
@@ -104,7 +104,7 @@ export default function App() {
                 variant="outlined"
                 size="small"
                 sx={{
-                    'min-width': '32px',
+                    'minWidth': '32px',
                     'color': 'white',
                     'borderColor': 'white', // Set the border color of the button
                     '&:hover': {
@@ -114,7 +114,7 @@ export default function App() {
                 }}
                 onClick={()=> setChars([])}
             >
-                💩
+                Clear
             </Button>
         </div>
     </>

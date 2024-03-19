@@ -1,5 +1,5 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const color1 = '#ffffff'
@@ -10,7 +10,7 @@ const color2 = '#ffffff'
 export default function InputControl({ onSubmit, onFocus }) {
     const [inputValue, setInputValue] = useState('');
     const [isFocused, setIsFocused] = useState(false);
-
+    const [isMobile, setIsMobile] = useState(false);
 
     const handleChange = (event) => {
         setInputValue(event.target.value);
@@ -21,6 +21,13 @@ export default function InputControl({ onSubmit, onFocus }) {
         onSubmit(inputValue)
         setInputValue('');
     };
+
+    useEffect(() => {
+        const userAgent = navigator.userAgent;
+        const isMobileDevice =
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+        setIsMobile(isMobileDevice);
+    }, []);
 
     return (
         <div className="input-container">
@@ -38,7 +45,7 @@ export default function InputControl({ onSubmit, onFocus }) {
                                         color: color1,
                                         marginLeft: '2px',
                                     }}>
-                                    Press any keys or type something here.
+                                    {!isMobile ? 'Press any key or type something here.' : 'Please type something here.'}
                                 </Typography>
                         }
                         InputLabelProps={{ shrink: false }}
@@ -50,7 +57,7 @@ export default function InputControl({ onSubmit, onFocus }) {
                         onBlur={() => { setIsFocused(false); onFocus(false) }}
                         sx={{
                             '& input': {
-                                width: '220px',
+                                width: !isMobile ? '220px' : '160px',
                                 color: color1,
                                 fontSize: "12px",
                             },
@@ -74,7 +81,7 @@ export default function InputControl({ onSubmit, onFocus }) {
                         variant="outlined"
                         size="small"
                         sx={{
-                            'min-width': '32px',
+                            'minWidth': '32px',
                             'color': color1,
                             'borderColor': color1, // Set the border color of the button
                             '&:hover': {
