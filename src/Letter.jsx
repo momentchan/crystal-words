@@ -1,44 +1,61 @@
-import { Center, MeshTransmissionMaterial, Preload, RenderTexture, Text3D, useTexture } from "@react-three/drei";
-import { events, useLoader } from "@react-three/fiber";
-import { RigidBody } from "@react-three/rapier";
-import { useMemo, useRef } from "react";
+import { Center, DragControls, MeshTransmissionMaterial, Preload, RenderTexture, Text3D, useTexture } from "@react-three/drei";
+import { events, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { CuboidCollider, RigidBody, vec3 } from "@react-three/rapier";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MathUtils } from "three";
-
-const components = [
-    () => <Turtle />,
-    () => <Shoe scale={5} />,
-    () => <Basic scale={3} />,
-    () => <PingPong />,
-    () => <Stencil scale={2} />,
-];
+import * as THREE from 'three';
 
 const rfs = MathUtils.randFloatSpread
-export default function Letter({ char, stencilBuffer = false }) {
-    const main = useRef()
+
+export default function Letter({ char, control }) {
+    const body = useRef()
+    const [dragging, setDragging] = useState(false);
+
+    const plane = useRef(new THREE.Plane())
+    const camera = useThree((state) => state.camera)
+
     const props = useMemo(() => {
         return {
             position: [rfs(20), 30, rfs(20)],
-            rotation: [0, rfs(180), 0]
+            rotation: [rfs(20), rfs(180), rfs(20)]
         }
     }, [])
 
-    const children = useMemo(() => {
-        const randomIndex = Math.floor(Math.random() * components.length);
-        const Component = components[randomIndex];
-        return <Component />;
-    }, [])
+    useEffect(() => {
+        const handleMouseUp = () => {
+            setDragging(false);
+            control.current.enabled = true
+        };
+        window.addEventListener("pointerup", handleMouseUp);
 
+        return () => {
+            window.removeEventListener("pointerup", handleMouseUp);
+        };
+    }, []);
 
-    const contentRef = useRef()
+    useFrame(({ mouse }) => {
+        if (dragging) {
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            const intersection = new THREE.Vector3();
+            raycaster.ray.intersectPlane(plane.current, intersection);
+            body.current.setNextKinematicTranslation(intersection)
+        }
+    })
 
     return (
         <RigidBody
             colliders='cuboid'
-            gravityScale={5}
-
+            type={dragging ? "kinematicPosition" : "dynamic"}
+            ref={body}
+            onPointerDown={e => {
+                control.current.enabled = false
+                plane.current.setFromNormalAndCoplanarPoint(e.ray.direction, e.point);
+                setDragging(true)
+            }}
             {...props}
         >
-            <Center ref={main}>
+            <Center>
                 <Text3D
                     bevelEnabled
                     font="/bold.blob"
@@ -50,7 +67,8 @@ export default function Letter({ char, stencilBuffer = false }) {
                     bevelThickness={10}
                     bevelSize={2}
                     bevelOffset={0}
-                    bevelSegments={5}>
+                    bevelSegments={5}
+                >
                     {char}
                     <MeshTransmissionMaterial
                         clearcoat={1}
@@ -58,15 +76,7 @@ export default function Letter({ char, stencilBuffer = false }) {
                         thickness={40}
                         chromaticAberration={0.25}
                         anisotropy={0.4}
-                        // background={'./adamsbridge.hdr'}
                     >
-                        {/* <RenderTexture attach="buffer" stencilBuffer={stencilBuffer} width={32} height={32} compute={events.compute}>
-                            <color attach="background" args={['#4899c9']} />
-                            <group matrixAutoUpdate={false}>
-                                {children}
-                            </group>
-                            <Preload all />
-                        </RenderTexture> */}
                     </MeshTransmissionMaterial>
                 </Text3D>
             </Center>

@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function App() {
     const [chars, setChars] = useState([])
+    const control = useRef()
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -16,7 +17,7 @@ export default function App() {
                 const char = event.key.toUpperCase();
                 setChars(prevChars => [...prevChars, char]);
             }
-            if(isNumber){
+            if (isNumber) {
                 setChars(prevChars => [...prevChars, event.key]);
             }
         };
@@ -38,13 +39,12 @@ export default function App() {
                 position: [-20, 40, 30]
             }}>
             <color attach='background' args={['#4899c9']} />
-            
-            <Physics  >
-                {chars.map((char, index) => <Letter key={index} char={char} rotation={[4, 5, 6]} />)}
 
-                <CuboidCollider position={[0, -6, 0]} type="fixed" args={[100, 1, 100]} />
+            <Physics debug>
+                {chars.map((char, index) => <Letter key={index} char={char} control = {control} rotation={[4, 5, 6]} />)}
+                <CuboidCollider position={[0, -1, 0]} type="fixed" args={[100, 1, 100]} />
                 <CuboidCollider position={[0, 0, -30]} type="fixed" args={[30, 100, 1]} />
-                <CuboidCollider position={[0, 0, 10]} type="fixed" args={[30, 100, 1]} />
+                <CuboidCollider position={[0, 0, 30]} type="fixed" args={[30, 100, 1]} />
                 <CuboidCollider position={[-30, 0, 0]} type="fixed" args={[1, 100, 30]} />
                 <CuboidCollider position={[30, 0, 0]} type="fixed" args={[1, 100, 30]} />
             </Physics>
@@ -61,10 +61,10 @@ export default function App() {
                 </group>
             </Environment>
 
-            <ContactShadows smooth={false} scale={100} position={[0, -5.05, 0]} blur={0.5} opacity={0.75} />
+            <ContactShadows smooth={false} scale={100} position={[0, -0.2, 0]} blur={0.5} opacity={0.75} />
             <Preload all />
 
-            <CameraControls makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
+            <CameraControls ref={control} makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
         </Canvas>
     </>
 }
