@@ -16,7 +16,7 @@ export default function Letter({ char, control }) {
 
     const props = useMemo(() => {
         return {
-            position: [rfs(20), 30, rfs(20)],
+            position: [rfs(20), 40, rfs(20)],
             rotation: [rfs(20), rfs(180), rfs(20)]
         }
     }, [])

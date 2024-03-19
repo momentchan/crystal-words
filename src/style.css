@@ -15,3 +15,30 @@ body,
     left: 10px;
     width: 100%;
 }
+
+.keyDisplayer {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    font-family: 'Roboto';
+    color: white;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.trashCan {
+    position: fixed;
+    top: 30px;
+    right: 20px;
+    color: white;
+    font-size: 14px;
+}

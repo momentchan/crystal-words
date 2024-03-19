@@ -4,11 +4,21 @@ import { CuboidCollider, Physics } from "@react-three/rapier";
 import Letter from "./Letter";
 import { useEffect, useMemo, useRef, useState } from "react";
 import InputControl from "./InputControl";
+import { Button } from "@mui/material";
 
 export default function App() {
     const [chars, setChars] = useState([])
     const [focus, setFocus] = useState(false)
+    const [fadeClass, setFadeClass] = useState('');
     const control = useRef()
+    let timeoutId;
+
+
+    function showLastChar() {
+        setFadeClass('fade-in');
+        clearTimeout(timeoutId); // Clear previous timeout if exists
+        timeoutId = setTimeout(() => setFadeClass('fade-out'), 2000);
+    }
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -20,24 +30,27 @@ export default function App() {
             if (isValidCharacter) {
                 const char = event.key.toUpperCase();
                 setChars(prevChars => [...prevChars, char]);
+                showLastChar()
             }
             if (isNumber) {
                 setChars(prevChars => [...prevChars, event.key]);
+                showLastChar()
             }
         };
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
+            clearTimeout(timeoutId);
         };
     }, [focus]); // 
 
-
     const handleSubmit = (inputValue) => {
         const upperCaseValue = inputValue.toUpperCase();
-        const cleanedValue = upperCaseValue.replace(/[^a-zA-Z0-9]/g, '');
-        console.log('Input value received in App:', inputValue);
+        const cleanedValue = upperCaseValue.replace(/[^a-zA-Z0-9\s]/g, '');
         setChars(prevChars => [...prevChars, cleanedValue]);
+
+        showLastChar()
     };
 
     return <>
@@ -49,7 +62,7 @@ export default function App() {
                 far: 1000,
                 position: [-20, 40, 30]
             }}>
-            <color attach='background' args={['#4899c9']} />
+            <color attach='background' args={['#7d8c96']} />
 
             <Physics
             // debug
@@ -74,11 +87,35 @@ export default function App() {
                 </group>
             </Environment>
 
-            <ContactShadows smooth={false} scale={100} position={[0, -0.05, 0]} blur={0.5} opacity={0.75} />
+            <ContactShadows smooth={false} scale={200} position={[0, -0.05, 0]} blur={0.5} opacity={0.75} />
             <Preload all />
 
             <CameraControls ref={control} makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
         </Canvas>
-        <InputControl onSubmit={handleSubmit} setFocus={(focus) => setFocus(focus)} />
+        <InputControl onSubmit={handleSubmit} onFocus={(focus) => setFocus(focus)} />
+
+        <div className={`keyDisplayer ${fadeClass}`}>
+            Key : {chars[chars.length - 1]}
+        </div>
+        <div
+            className="trashCan"
+        >
+            <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                    'min-width': '32px',
+                    'color': 'white',
+                    'borderColor': 'white', // Set the border color of the button
+                    '&:hover': {
+                        color: 'white', // Set the text color of the button on hover
+                        borderColor: 'white', // Set the border color of the button on hover
+                    },
+                }}
+                onClick={()=> setChars([])}
+            >
+                💩
+            </Button>
+        </div>
     </>
 }
