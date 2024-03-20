@@ -6,7 +6,8 @@ Supports **English, Mandarin, and Japanese**.
 - **Single Letter Creation**: Press any key on your keyboard while the input field is not focused.
 - **Sentence Creation**: Type your messages in the input field and press the **"GO"** button.
 - **Interaction**: Drag and drop words freely within the space.
-- **Reset**: Press **"CLEAR"** to remove all characters.
+- **Remove**: Press **"CLEAR"** to remove all characters.
+- **Capture**: Press **"Capture"** to capture your scene as an image
 
 ### Mobile
 Only supports creating sentences.
