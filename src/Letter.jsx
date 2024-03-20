@@ -69,7 +69,7 @@ export default function Letter({ char, control }) {
             <Center>
                 <Text3D
                     bevelEnabled
-                    font="/Noto Sans TC_JP_Bold.json"
+                    font="NotoSansTC_JP_Bold.json"
                     smooth={1}
                     scale={0.125}
                     size={80}

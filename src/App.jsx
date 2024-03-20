@@ -1,4 +1,4 @@
-import { CameraControls, ContactShadows, Environment, KeyboardControls, Lightformer, OrbitControls, Preload, useKeyboardControls } from "@react-three/drei";
+import { CameraControls, ContactShadows, Environment, Lightformer, Preload} from "@react-three/drei";
 import { Canvas } from '@react-three/fiber'
 import { CuboidCollider, Physics } from "@react-three/rapier";
 import Letter from "./Letter";
@@ -79,6 +79,7 @@ export default function App() {
             <Preload all />
 
             <CameraControls ref={control} makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
+            <Preload all/>
         </Canvas>
         <InputField onSubmit={handleSubmit} onFocus={(focus) => setFocus(focus)} />
 
