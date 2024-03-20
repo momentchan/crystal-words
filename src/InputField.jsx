@@ -56,7 +56,7 @@ export default function InputField({ onSubmit, onFocus }) {
                         onBlur={() => { setIsFocused(false); onFocus(false) }}
                         sx={{
                             '& input': {
-                                width: !isMobile ? '250px' : '160px',
+                                width: !isMobile ? '250px' : '190px',
                                 color: color1,
                                 fontSize: "14px",
                             },
