@@ -1,10 +1,11 @@
-import { CameraControls, ContactShadows, Environment, Lightformer, Preload} from "@react-three/drei";
+import { CameraControls, ContactShadows, Environment, Lightformer, Preload } from "@react-three/drei";
 import { Canvas } from '@react-three/fiber'
 import { CuboidCollider, Physics } from "@react-three/rapier";
 import Letter from "./Letter";
 import { useEffect, useMemo, useRef, useState } from "react";
 import InputField from "./InputField";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
+import Buttons from "./Buttons";
 
 export default function App() {
     const [chars, setChars] = useState([])
@@ -49,7 +50,9 @@ export default function App() {
                 near: 1,
                 far: 1000,
                 position: [-20, 40, 30]
-            }}>
+            }}
+            gl={{ preserveDrawingBuffer: true }}
+        >
             <color attach='background' args={['#8dafc2']} />
 
             <Physics
@@ -79,32 +82,13 @@ export default function App() {
             <Preload all />
 
             <CameraControls ref={control} makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
-            <Preload all/>
+            <Preload all />
         </Canvas>
         <InputField onSubmit={handleSubmit} onFocus={(focus) => setFocus(focus)} />
+        <Buttons onClear={() => setChars([])} />
 
         <div className={`keyDisplayer ${fadeClass}`}>
             {chars[chars.length - 1] != "" ? `Input : ${chars[chars.length - 1]}` : ""}
-        </div>
-        <div
-            className="trashCan"
-        >
-            <Button
-                variant="outlined"
-                size="small"
-                sx={{
-                    'minWidth': '32px',
-                    'color': '#dddddd',
-                    'borderColor': '#dddddd', // Set the border color of the button
-                    '&:hover': {
-                        color: '#dddddd', // Set the text color of the button on hover
-                        borderColor: '#dddddd', // Set the border color of the button on hover
-                    },
-                }}
-                onClick={() => setChars([])}
-            >
-                Clear
-            </Button>
         </div>
     </>
 }

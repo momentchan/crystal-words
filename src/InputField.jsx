@@ -1,5 +1,5 @@
-import { Button, Grid, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Button, Grid, TextField, Typography, styled } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 
 
 const color1 = '#dddddd'
@@ -35,13 +35,12 @@ export default function InputField({ onSubmit, onFocus }) {
                 <Grid item>
                     <TextField
                         value={inputValue}
-                        id="outlined-size-small"
                         label={
                             (inputValue != "" || isFocused) ?
                                 null :
                                 <Typography
                                     sx={{
-                                        fontSize: '12px',
+                                        fontSize: '14px',
                                         color: color1,
                                         marginLeft: '2px',
                                         userSelect: 'none'
@@ -57,9 +56,9 @@ export default function InputField({ onSubmit, onFocus }) {
                         onBlur={() => { setIsFocused(false); onFocus(false) }}
                         sx={{
                             '& input': {
-                                width: !isMobile ? '220px' : '160px',
+                                width: !isMobile ? '250px' : '160px',
                                 color: color1,
-                                fontSize: "12px",
+                                fontSize: "14px",
                             },
                             '& .MuiInput-underline:before': {
                                 borderBottomColor: color1,

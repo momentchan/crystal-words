@@ -35,7 +35,7 @@ body,
     opacity: 0;
 }
 
-.trashCan {
+.buttons {
     position: fixed;
     bottom: 30px;
     right: 20px;
