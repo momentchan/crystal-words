@@ -21,7 +21,7 @@ body,
     top: 30px;
     left: 20px;
     font-family: 'Roboto';
-    color: white;
+    color: #dddddd;
     font-size: 14px;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
@@ -39,6 +39,5 @@ body,
     position: fixed;
     bottom: 30px;
     right: 20px;
-    color: white;
     font-size: 14px;
 }

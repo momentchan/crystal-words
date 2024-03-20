@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { CuboidCollider, Physics } from "@react-three/rapier";
 import Letter from "./Letter";
 import { useEffect, useMemo, useRef, useState } from "react";
-import InputControl from "./InputControl";
+import InputField from "./InputField";
 import { Button } from "@mui/material";
 
 export default function App() {
@@ -24,18 +24,9 @@ export default function App() {
         const handleKeyDown = (event) => {
             if (focus) return
 
-            const isValidCharacter = /^[a-zA-Z]$/i.test(event.key);
-            const isNumber = /^[0-9]$/.test(event.key);
-
-            if (isValidCharacter) {
-                const char = event.key.toUpperCase();
-                setChars(prevChars => [...prevChars, char]);
-                showLastChar()
-            }
-            if (isNumber) {
-                setChars(prevChars => [...prevChars, event.key]);
-                showLastChar()
-            }
+            const char = event.key
+            setChars(prevChars => [...prevChars, char]);
+            showLastChar()
         };
         window.addEventListener('keydown', handleKeyDown);
 
@@ -46,10 +37,7 @@ export default function App() {
     }, [focus]); // 
 
     const handleSubmit = (inputValue) => {
-        const upperCaseValue = inputValue.toUpperCase();
-        const cleanedValue = upperCaseValue.replace(/[^a-zA-Z0-9\s]/g, '');
-        setChars(prevChars => [...prevChars, cleanedValue]);
-
+        setChars(prevChars => [...prevChars, inputValue]);
         showLastChar()
     };
 
@@ -92,10 +80,10 @@ export default function App() {
 
             <CameraControls ref={control} makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
         </Canvas>
-        <InputControl onSubmit={handleSubmit} onFocus={(focus) => setFocus(focus)} />
+        <InputField onSubmit={handleSubmit} onFocus={(focus) => setFocus(focus)} />
 
         <div className={`keyDisplayer ${fadeClass}`}>
-            Key : {chars[chars.length - 1]}
+            {chars[chars.length - 1] != "" ? `Input : ${chars[chars.length - 1]}` : ""}
         </div>
         <div
             className="trashCan"
@@ -105,11 +93,11 @@ export default function App() {
                 size="small"
                 sx={{
                     'minWidth': '32px',
-                    'color': 'white',
-                    'borderColor': 'white', // Set the border color of the button
+                    'color': '#dddddd',
+                    'borderColor': '#dddddd', // Set the border color of the button
                     '&:hover': {
-                        color: 'white', // Set the text color of the button on hover
-                        borderColor: 'white', // Set the border color of the button on hover
+                        color: '#dddddd', // Set the text color of the button on hover
+                        borderColor: '#dddddd', // Set the border color of the button on hover
                     },
                 }}
                 onClick={() => setChars([])}
