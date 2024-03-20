@@ -1,5 +1,6 @@
 import { Button, Grid, TextField, Typography, styled } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
+import useGlobalStore from "./useGlobalStore";
 
 
 const color1 = '#dddddd'
@@ -10,7 +11,7 @@ const color2 = '#dddddd'
 export default function InputField({ onSubmit, onFocus }) {
     const [inputValue, setInputValue] = useState('');
     const [isFocused, setIsFocused] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
+    const isMobile = useGlobalStore(state => state.isMobile)
 
     const handleChange = (event) => {
         setInputValue(event.target.value);
@@ -21,14 +22,6 @@ export default function InputField({ onSubmit, onFocus }) {
         onSubmit(inputValue)
         setInputValue('');
     };
-
-    useEffect(() => {
-        const userAgent = navigator.userAgent;
-        const isMobileDevice =
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-        setIsMobile(isMobileDevice);
-
-    }, []);
 
     return (
         <div className={`input-container ${isMobile ? 'left' : 'center'}`}>

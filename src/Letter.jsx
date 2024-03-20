@@ -4,6 +4,7 @@ import { RigidBody } from "@react-three/rapier";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MathUtils } from "three";
 import * as THREE from 'three';
+import useGlobalStore from "./useGlobalStore";
 
 const rfs = MathUtils.randFloatSpread
 
@@ -13,6 +14,7 @@ export default function Letter({ char, control }) {
 
     const plane = useRef(new THREE.Plane())
     const camera = useThree((state) => state.camera)
+    const isMobile = useGlobalStore(state => state.isMobile)
 
     const props = useMemo(() => {
         return {
@@ -43,8 +45,10 @@ export default function Letter({ char, control }) {
         }
     })
 
+
     const handlePointerOver = () => {
-        document.body.style.cursor = 'pointer';
+
+        document.body.style.cursor = isMobile ? 'auto' : 'pointer';
     };
 
     const handlePointerOut = () => {

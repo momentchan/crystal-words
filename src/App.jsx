@@ -4,16 +4,24 @@ import { CuboidCollider, Physics } from "@react-three/rapier";
 import Letter from "./Letter";
 import { useEffect, useMemo, useRef, useState } from "react";
 import InputField from "./InputField";
-import { Button, Grid } from "@mui/material";
 import Buttons from "./Buttons";
+import useGlobalStore from "./useGlobalStore";
 
 export default function App() {
     const [chars, setChars] = useState([])
     const [focus, setFocus] = useState(false)
     const [fadeClass, setFadeClass] = useState('');
+    const { isMobile, setIsMobile } = useGlobalStore();
+
     const control = useRef()
     let timeoutId;
 
+    useEffect(() => {
+        const userAgent = navigator.userAgent;
+        const isMobileDevice =
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+        setIsMobile(isMobileDevice);
+    }, [])
 
     function showLastChar() {
         setFadeClass('fade-in');
