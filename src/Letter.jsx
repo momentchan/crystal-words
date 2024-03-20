@@ -17,7 +17,7 @@ export default function Letter({ char, control }) {
     const props = useMemo(() => {
         return {
             position: [rfs(20), 40, rfs(20)],
-            rotation: [rfs(20), rfs(180), rfs(20)]
+            rotation: [rfs(1.5), rfs(180), rfs(1.5)]
         }
     }, [])
 
@@ -43,6 +43,14 @@ export default function Letter({ char, control }) {
         }
     })
 
+    const handlePointerOver = () => {
+        document.body.style.cursor = 'pointer';
+    };
+
+    const handlePointerOut = () => {
+        document.body.style.cursor = 'auto';
+    };
+
     return (
         <RigidBody
             colliders='cuboid'
@@ -54,6 +62,8 @@ export default function Letter({ char, control }) {
                 plane.current.setFromNormalAndCoplanarPoint(e.ray.direction, e.point);
                 setDragging(true)
             }}
+            onPointerOver={handlePointerOver}
+            onPointerOut={handlePointerOut}
             {...props}
         >
             <Center>
@@ -63,6 +73,7 @@ export default function Letter({ char, control }) {
                     smooth={1}
                     scale={0.125}
                     size={80}
+                    castShadow
                     height={4}
                     curveSegments={10}
                     bevelThickness={10}
@@ -75,8 +86,9 @@ export default function Letter({ char, control }) {
                         clearcoat={1}
                         samples={3}
                         thickness={40}
-                        chromaticAberration={0.25}
-                        anisotropy={0.4}
+                        chromaticAberration={0.5}
+                        anisotropy={1}
+                        transmission={1}
                     >
                     </MeshTransmissionMaterial>
                 </Text3D>

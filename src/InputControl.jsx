@@ -44,12 +44,12 @@ export default function InputControl({ onSubmit, onFocus }) {
                                         fontSize: '12px',
                                         color: color1,
                                         marginLeft: '2px',
+                                        userSelect: 'none'
                                     }}>
                                     {!isMobile ? 'Press any key or type something here.' : 'Please type something here.'}
                                 </Typography>
                         }
                         InputLabelProps={{ shrink: false }}
-                        autoFocus
                         variant="standard"
                         size="small"
                         onChange={handleChange}
@@ -91,7 +91,7 @@ export default function InputControl({ onSubmit, onFocus }) {
                         }}
                         onClick={handleSubmit}
                     >
-                        🚀
+                        GO
                     </Button>
                 </Grid>
             </Grid>

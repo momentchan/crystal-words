@@ -112,7 +112,7 @@ export default function App() {
                         borderColor: 'white', // Set the border color of the button on hover
                     },
                 }}
-                onClick={()=> setChars([])}
+                onClick={() => setChars([])}
             >
                 Clear
             </Button>
