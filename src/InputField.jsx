@@ -48,6 +48,11 @@ export default function InputField({ onSubmit, onFocus }) {
                         onChange={handleChange}
                         onFocus={() => { setIsFocused(true); onFocus(true) }}
                         onBlur={() => { setIsFocused(false); onFocus(false) }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSubmit(e)
+                            }
+                        }}
                         sx={{
                             '& input': {
                                 width: !isMobile ? '250px' : '190px',
