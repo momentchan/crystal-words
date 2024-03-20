@@ -27,10 +27,11 @@ export default function InputField({ onSubmit, onFocus }) {
         const isMobileDevice =
             /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
         setIsMobile(isMobileDevice);
+
     }, []);
 
     return (
-        <div className="input-container">
+        <div className={`input-container ${isMobile ? 'left' : 'center'}`}>
             <Grid container justifyContent={"flex-start"} spacing={1} alignItems="flex-end" marginLeft={0}>
                 <Grid item>
                     <TextField
