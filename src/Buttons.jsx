@@ -1,5 +1,6 @@
 import { Button, Grid } from "@mui/material"
 import { useMemo } from "react"
+import { Screenshot } from "./r3f-gist/utility/Utilities"
 
 export default function Buttons({ onClear }) {
     const style = useMemo(() => {
@@ -32,13 +33,7 @@ export default function Buttons({ onClear }) {
                     variant="outlined"
                     size="small"
                     sx={style}
-                    onClick={() =>
-                    {
-                        const link = document.createElement('a')
-                        link.setAttribute('download', 'Screenshot.png')
-                        link.setAttribute('href', document.querySelector('canvas').toDataURL('image/png').replace('image/png', 'image/octet-stream'))
-                        link.click()
-                    }}
+                    onClick={() => Screenshot()}
                 >
                     Capture
                 </Button>
