@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber'
 import { CuboidCollider, Physics } from "@react-three/rapier";
 import { CameraControls, Preload } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import InputField from "./InputField";
 import Letter from "./Letter";
 import Buttons from "./Buttons";
@@ -18,6 +18,8 @@ export default function App() {
     const control = useRef()
     const displayer = useRef()
 
+    console.log(currentColor);
+
     useEffect(() => {
         const userAgent = navigator.userAgent;
         const isMobileDevice =
@@ -30,7 +32,6 @@ export default function App() {
             if (focus) return
             const char = event.key
             setChars(prevChars => [...prevChars, char]);
-            displayer.current.showLastChar()
         };
         window.addEventListener('keydown', handleKeyDown);
 
@@ -38,9 +39,14 @@ export default function App() {
     }, [focus]);
 
 
+    useEffect(() => {
+        if (chars[chars.length - 1] == undefined)
+            return
+        displayer.current.showLastChar(`Input : ${chars[chars.length - 1]}`)
+    }, [chars])
+
     const handleSubmit = (inputValue) => {
         setChars(prevChars => [...prevChars, inputValue]);
-        displayer.current.showLastChar()
     };
 
     return <>
@@ -73,6 +79,6 @@ export default function App() {
 
         <ColorPicker onColorChange={(color) => setCurrentColor(color)} />
 
-        <KeyDisplayer ref={displayer} value={chars[chars.length - 1] != "" ? `Input : ${chars[chars.length - 1]}` : ""} />
+        <KeyDisplayer ref={displayer} />
     </>
 }
