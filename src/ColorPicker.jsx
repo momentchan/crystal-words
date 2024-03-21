@@ -2,7 +2,7 @@ import { Button, Grid } from "@mui/material";
 
 const colors = [
     '#8dafc2',
-    '#8dc29e',
+    '#95c28d',
     '#bdc28d',
     '#c2a88d',
     '#bd8dc2'

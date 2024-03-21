@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber'
 import { CuboidCollider, Physics } from "@react-three/rapier";
 import { CameraControls, Preload } from "@react-three/drei";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InputField from "./InputField";
 import Letter from "./Letter";
 import Buttons from "./Buttons";
@@ -17,8 +17,6 @@ export default function App() {
     const [currentColor, setCurrentColor] = useState("#8dafc2");
     const control = useRef()
     const displayer = useRef()
-
-    console.log(currentColor);
 
     useEffect(() => {
         const userAgent = navigator.userAgent;
