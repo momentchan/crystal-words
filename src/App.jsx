@@ -6,12 +6,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import InputField from "./InputField";
 import Buttons from "./Buttons";
 import useGlobalStore from "./useGlobalStore";
+import ColorPicker from "./ColorPicker";
 
 export default function App() {
     const [chars, setChars] = useState([])
     const [focus, setFocus] = useState(false)
     const [fadeClass, setFadeClass] = useState('');
     const { isMobile, setIsMobile } = useGlobalStore();
+    const [currentColor, setCurrentColor] = useState("#8dafc2");
 
     const control = useRef()
     let timeoutId;
@@ -61,7 +63,7 @@ export default function App() {
             }}
             gl={{ preserveDrawingBuffer: true }}
         >
-            <color attach='background' args={['#8dafc2']} />
+            <color attach='background' args={[currentColor]} />
 
             <Physics
             // debug
@@ -94,6 +96,7 @@ export default function App() {
         </Canvas>
         <InputField onSubmit={handleSubmit} onFocus={(focus) => setFocus(focus)} />
         <Buttons onClear={() => setChars([])} />
+        <ColorPicker onColorChange={(color) => setCurrentColor(color)} />
 
         <div className={`keyDisplayer ${fadeClass}`}>
             {chars[chars.length - 1] != "" ? `Input : ${chars[chars.length - 1]}` : ""}

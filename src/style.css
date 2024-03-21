@@ -49,3 +49,9 @@ body,
     right: 20px;
     font-size: 14px;
 }
+
+.colorsContainer{
+    position: absolute;
+    top: 100px;
+    right: 20px;
+}
