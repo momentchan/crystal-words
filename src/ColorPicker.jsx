@@ -1,5 +1,4 @@
 import { Button, Grid } from "@mui/material";
-import { useState } from "react";
 
 const colors = [
     '#8dafc2',
@@ -29,7 +28,7 @@ function ColorBox({ color, onClick }) {
     </Grid>
 }
 
-export default function ColorPicker({ onColorChange }) {
+function ColorPicker({ onColorChange }) {
     return <div className="colorsContainer">
         <Grid
             container
@@ -42,3 +41,5 @@ export default function ColorPicker({ onColorChange }) {
         </Grid>
     </div>
 }
+
+export default ColorPicker

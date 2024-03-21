@@ -45,7 +45,6 @@ export default function Letter({ char, control }) {
         }
     })
 
-
     const handlePointerOver = () => {
 
         document.body.style.cursor = isMobile ? 'auto' : 'pointer';
