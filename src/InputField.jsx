@@ -1,6 +1,6 @@
 import { Button, Grid, TextField, Typography, styled } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import useGlobalStore from "./useGlobalStore";
+import useGlobalStore from "./r3f-gist/utility/useGlobalStore";
 
 
 const color1 = '#dddddd'

@@ -4,7 +4,7 @@ import { RigidBody } from "@react-three/rapier";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MathUtils } from "three";
 import * as THREE from 'three';
-import useGlobalStore from "./useGlobalStore";
+import useGlobalStore from "./r3f-gist/utility/useGlobalStore";
 
 const rfs = MathUtils.randFloatSpread
 

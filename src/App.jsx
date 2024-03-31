@@ -6,24 +6,16 @@ import InputField from "./InputField";
 import Letter from "./Letter";
 import Buttons from "./Buttons";
 import ColorPicker from "./ColorPicker";
-import useGlobalStore from "./useGlobalStore";
 import Lighting from './Lighting';
 import KeyDisplayer from './KeyDisplayer';
+import GlobalStates from './r3f-gist/utility/GlobalStates';
 
 export default function App() {
     const [chars, setChars] = useState([])
     const [focus, setFocus] = useState(false)
-    const { setIsMobile } = useGlobalStore();
     const [currentColor, setCurrentColor] = useState("#8dafc2");
     const control = useRef()
     const displayer = useRef()
-
-    useEffect(() => {
-        const userAgent = navigator.userAgent;
-        const isMobileDevice =
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-        setIsMobile(isMobileDevice);
-    }, [])
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -70,6 +62,8 @@ export default function App() {
 
             <CameraControls ref={control} makeDefault dollyToCursor minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
         </Canvas>
+
+        <GlobalStates/>
 
         <InputField onSubmit={handleSubmit} onFocus={(focus) => setFocus(focus)} />
 
